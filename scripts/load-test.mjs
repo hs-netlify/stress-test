@@ -1,3 +1,5 @@
+import { debugRequest } from "./utils/debugRequest.mjs";
+
 const fireRequest = async () => {
 	return await fetch(
 		"https://main--grand-faloodeh-09a237.netlify.app/timeout",
@@ -12,18 +14,7 @@ const fireRequests = async (amountOfRequests) => {
 	return await Promise.all(
 		Array(amountOfRequests)
 			.fill(0)
-			.map(async () => {
-				const time = new Date().toISOString();
-				const startTime = new Date().getTime();
-
-				const response = await fireRequest();
-
-				const timeTaken = new Date().getTime() - startTime;
-
-				console.log(`[${time}] [GET /] [${timeTaken / 100}s] [${response.status} - ${response.statusText}]`);
-
-				return response;
-			})
+			.map(async () => await debugRequest(fireRequest))
 	);
 };
 
