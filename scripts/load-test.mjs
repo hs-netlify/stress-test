@@ -1,13 +1,11 @@
 const fireRequest = async () => {
-	const response = await fetch(
+	return await fetch(
 		"https://main--grand-faloodeh-09a237.netlify.app/timeout",
 		{
 			method: "GET",
 			cache: "no-cache",
 		}
 	);
-
-	return response.statusText;
 };
 
 const fireRequests = async (amountOfRequests) => {
@@ -16,10 +14,13 @@ const fireRequests = async (amountOfRequests) => {
 			.fill(0)
 			.map(async () => {
 				const time = new Date().toISOString();
+				const startTime = new Date().getTime();
 
 				const response = await fireRequest();
 
-				console.log(`[${time}] [GET /timeout] ${response}`);
+				const timeTaken = new Date().getTime() - startTime;
+
+				console.log(`[${time}] [GET /] [${timeTaken / 100}s] [${response.status} - ${response.statusText}]`);
 
 				return response;
 			})

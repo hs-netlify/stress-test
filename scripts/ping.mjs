@@ -1,23 +1,24 @@
 import { wait } from "./utils/wait.mjs";
 
 const fireRequest = async () => {
-	const response = await fetch(
+	return await fetch(
 		"https://main--grand-faloodeh-09a237.netlify.app",
 		{
 			method: "GET",
 			cache: "no-cache",
 		}
 	);
-
-	return response.statusText;
 };
 
 const run = async () => {
 	const time = new Date().toISOString();
+	const startTime = new Date().getTime();
 
 	const response = await fireRequest();
 
-	console.log(`[${time}] [GET /] ${response}`);
+	const timeTaken = new Date().getTime() - startTime;
+
+	console.log(`[${time}] [GET /] [${(timeTaken / 100)}s] [${response.status} - ${response.statusText}]`);
 
 	await wait(250);
 
